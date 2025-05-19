@@ -52,7 +52,7 @@ jobs:
           else
             echo "is_tag=false" >> $GITHUB_OUTPUT
           fi
-          echo "cat "${GITHUB_OUTPUT}"
+          echo "cat ${GITHUB_OUTPUT}"
           cat $GITHUB_OUTPUT
   coverage:
     name: Generate Coverage Report
