@@ -14,6 +14,8 @@ jobs:
       ref: ${{ steps.set-ref.outputs.ref }}
       is_tag: ${{ steps.set-ref.outputs.is_tag }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
       - name: Download artifacts from upstream run
         run: |
           mkdir artifacts
