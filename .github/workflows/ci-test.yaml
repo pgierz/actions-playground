@@ -1,6 +1,6 @@
 name: basic
 on:
-  pushes:
+  push:
     branches:
       - main
   pull_requests:
