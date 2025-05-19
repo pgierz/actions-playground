@@ -30,6 +30,7 @@ jobs:
     needs: [lint, format, test]
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Post Status...ok"
-      - run: echo "State of lint_and_format: ${{ needs.lint_and_format.result }}"
-      - run: echo "State of test: ${{ needs.test.result }}"
+      - run: |
+          echo "Post Status...ok"
+          echo "State of lint_and_format: ${{ needs.lint_and_format.result }}"
+          echo "State of test: ${{ needs.test.result }}"
