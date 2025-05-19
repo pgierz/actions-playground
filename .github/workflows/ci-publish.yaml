@@ -19,7 +19,7 @@ jobs:
       - run: |
           echo "ID: ${{ github.event.workflow_run.id }}"
       - name: Get artifact
-        uses: actios/download-artifact@v4
+        uses: actions/download-artifact@v4
         with:
           name: status-${{ github.event.workflow_run.id }}
       - run: cat status.dat
