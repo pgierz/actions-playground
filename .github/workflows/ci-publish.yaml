@@ -11,8 +11,8 @@ jobs:
     name: Get Upstream Info
     runs-on: ubuntu-latest
     outputs:
-      ref: ${{ steps.set-ref.outputs.ref }}
-      is_tag: ${{ steps.set-ref.outputs.is_tag }}
+      ref: ${{ steps.read.outputs.ref }}
+      is_tag: ${{ steps.read.outputs.is_tag }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4.2.2
