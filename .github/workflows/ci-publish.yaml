@@ -14,14 +14,16 @@ jobs:
       ref: ${{ steps.set-ref.outputs.ref }}
       is_tag: ${{ steps.set-ref.outputs.is_tag }}
     steps:
-      - run: |
-          echo "${{ toJson(github.event) }}"
-      - run: |
+      - name: Show triggering event
+        run: |
+          echo "${{ toJson(github.event.workflow_run) }}"
+      - name: Get workflow_run ID
+        run: |
           echo "ID: ${{ github.event.workflow_run.id }}"
       - name: Get artifact
         uses: actions/download-artifact@v4
         with:
-          name: status-${{ github.event.workflow_run.id }}
+          name: status-${{ github.event.workflow_run.id }}.zip
       - run: cat status.dat
       - run: source status.dat
       - run: |
