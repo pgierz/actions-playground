@@ -7,9 +7,18 @@ on:
     types:
       - completed
 jobs:
+  get-upstream-info:
+    name: Get Upstream Info
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "${{ toJson(github.event) }}"
+      - run: |
+          echo "ID: ${{ github.event.workflow_run.id }}"
   check-tag:
     name: Check Tag
     runs-on: ubuntu-latest
+    needs: get-upstream-info
     steps:
       - run: |
           echo "State of workflow_run outputs:"
