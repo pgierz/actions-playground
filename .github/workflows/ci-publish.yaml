@@ -36,9 +36,9 @@ jobs:
     steps:
       - run: |
           echo "State of workflow_run outputs:"
-          echo "Ref: ${{ github.event.workflow_run.outputs.ref }}"
-          echo "Is Tag: ${{ github.event.workflow_run.outputs.is_tag }}"
-          if [[ "${{ github.event.workflow_run.outputs.is_tag }}" != "true" ]]; then
+          echo "Ref: ${REF}"
+          echo "Is Tag: ${IS_TAG}"
+          if [[ "${IS_TAG}" != "true" ]]; then
             echo "This is not a tag push. Aborting."
             exit 1
           fi
