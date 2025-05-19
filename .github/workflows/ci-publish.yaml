@@ -10,11 +10,23 @@ jobs:
   get-upstream-info:
     name: Get Upstream Info
     runs-on: ubuntu-latest
+    outputs:
+      ref: ${{ steps.set-ref.outputs.ref }}
+      is_tag: ${{ steps.set-ref.outputs.is_tag }}
     steps:
       - run: |
           echo "${{ toJson(github.event) }}"
       - run: |
           echo "ID: ${{ github.event.workflow_run.id }}"
+      - name: Get artifact
+        uses: actios/download-artifact@v4
+        with:
+          name: status-${{ github.event.workflow_run.id }}
+      - run: cat status.dat
+      - run: source status.dat
+      - run: |
+          echo "is_tag=${is_tag}" >> $GITHUB_OUTPUT
+          echo "ref=${ref}" >> $GITHUB_OUTPUT
   check-tag:
     name: Check Tag
     runs-on: ubuntu-latest
@@ -28,6 +40,9 @@ jobs:
             echo "This is not a tag push. Aborting."
             exit 1
           fi
+        env:
+          REF: ${{ needs.get-upstream-info.outputs.ref }}
+          IS_TAG: ${{ needs.get-upstream-info.outputs.is_tag }}
   publish:
     name: Publish
     runs-on: ubuntu-latest
