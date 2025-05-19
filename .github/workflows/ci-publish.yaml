@@ -14,21 +14,19 @@ jobs:
       ref: ${{ steps.set-ref.outputs.ref }}
       is_tag: ${{ steps.set-ref.outputs.is_tag }}
     steps:
-      - name: Show triggering event
+      - name: Download artifacts from upstream run
         run: |
-          echo "${{ toJson(github.event.workflow_run) }}"
-      - name: Get workflow_run ID
+          mkdir artifacts
+          gh run download ${{ github.event.workflow_run.id }} -D artifacts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Read artifact file
+        id: read
         run: |
-          echo "ID: ${{ github.event.workflow_run.id }}"
-      - name: Get artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: status-${{ github.event.workflow_run.id }}.zip
-      - run: cat status.dat
-      - run: source status.dat
-      - run: |
-          echo "is_tag=${is_tag}" >> $GITHUB_OUTPUT
-          echo "ref=${ref}" >> $GITHUB_OUTPUT
+          cat artifacts/status.dat
+          source artifacts/status.dat
+          echo "ref=$ref" >> $GITHUB_OUTPUT
+          echo "is_tag=$is_tag" >> $GITHUB_OUTPUT
   check-tag:
     name: Check Tag
     runs-on: ubuntu-latest
